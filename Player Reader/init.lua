@@ -189,12 +189,26 @@ local function PresentPlayers()
         if atkTech.type == 0 then
             lib_helpers.Text(true, "---")
         else
-            lib_helpers.Text(true, "%s %i: %s", atkTech.name, atkTech.level, os.date("!%M:%S", atkTech.time))
+            local atkTechColor = 0xFFFFFFFF
+            if atkTech.time <= 15 then
+                atkTechColor = 0xFFFFFF00
+            end
+            if atkTech.time <= 5 then
+                atkTechColor = 0xFFFF0000
+            end
+            lib_helpers.TextC(true, atkTechColor, "%s %i: %s", atkTech.name, atkTech.level, os.date("!%M:%S", atkTech.time))
         end
         if defTech.type == 0 then
             lib_helpers.Text(true, "---")
         else
-            lib_helpers.Text(true, "%s %i: %s", defTech.name, defTech.level, os.date("!%M:%S", defTech.time))
+            local defTechColor = 0xFFFFFFFF
+            if defTech.time <= 15 then
+                defTechColor = 0xFFFFFF00
+            end
+            if defTech.time <= 5 then
+                defTechColor = 0xFFFF0000
+            end
+            lib_helpers.TextC(true, defTechColor, "%s %i: %s", defTech.name, defTech.level, os.date("!%M:%S", defTech.time))
         end
         if invuln.name ~= "I" then
             lib_helpers.Text(true, "---")
@@ -256,12 +270,26 @@ local function PresentPlayer(address, sd, inv)
         if atkTech.type == 0 then
             --lib_helpers.Text(true, "")
         else
-            lib_helpers.Text(true, "%s %02i: %s", atkTech.name, atkTech.level, os.date("!%M:%S", atkTech.time))
+            local atkTechColor = 0xFFFFFFFF
+            if atkTech.time <= 15 then
+                atkTechColor = 0xFFFFFF00
+            end
+            if atkTech.time <= 5 then
+                atkTechColor = 0xFFFF0000
+            end
+            lib_helpers.TextC(true, atkTechColor, "%s %02i: %s", atkTech.name, atkTech.level, os.date("!%M:%S", atkTech.time))
         end
         if defTech.type == 0 then
             --lib_helpers.Text(true, "")
         else
-            lib_helpers.Text(true, "%s %02i: %s", defTech.name, defTech.level, os.date("!%M:%S", defTech.time))
+            local defTechColor = 0xFFFFFFFF
+            if defTech.time <= 15 then
+                defTechColor = 0xFFFFFF00
+            end
+            if defTech.time <= 5 then
+                defTechColor = 0xFFFF0000
+            end
+            lib_helpers.TextC(true, defTechColor, "%s %02i: %s", defTech.name, defTech.level, os.date("!%M:%S", defTech.time))
         end
     end
     
