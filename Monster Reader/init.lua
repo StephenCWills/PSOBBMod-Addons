@@ -168,6 +168,12 @@ local _MonsterBarbaRaySkullHPMax = 0x20
 local _MonsterBarbaRayShellHP = 0x7AC
 local _MonsterBarbaRayShellHPMax = 0x1C
 
+-- Special code pointer for Dubwitch
+local _DubwitchObjectCode = 0x00B267C0
+
+-- Special code pointer for Darvant
+local _DarvantObjectCode = 0x00AF7D60
+
 local function CopyMonster(monster)
     local copy = {}
 
@@ -243,6 +249,7 @@ local function GetMonsterDataBarbaRay(monster)
 end
 
 local function GetMonsterData(monster)
+    monster.code = pso.read_u32(monster.address)
     monster.id = pso.read_u16(monster.address + _ID)
     monster.unitxtID = pso.read_u32(monster.address + _MonsterUnitxtID)
     monster.HP = pso.read_u16(monster.address + _MonsterHP)
@@ -252,10 +259,23 @@ local function GetMonsterData(monster)
     monster.posY = pso.read_f32(monster.address + _PosY)
     monster.posZ = pso.read_f32(monster.address + _PosZ)
 
+    -- Dubwitches have an id of zero so we force it to 49
+    -- instead, which is where the Dubwitch unitxt data is
+    if monster.code == _DubwitchObjectCode then
+        monster.unitxtID = 49
+    end
+
     -- Other stuff
     monster.name = lib_unitxt.GetMonsterName(monster.unitxtID, _Ultimate)
     monster.color = 0xFFFFFFFF
     monster.display = true
+
+    -- Darvants also have an id of zero, but they don't actually
+    -- have an unitxt ID so we give it a fake ID of 999
+    if monster.code == _DarvantObjectCode then
+        monster.unitxtID = 999
+        monster.name = "Darvant"
+    end
 
     if monster.unitxtID == 45 then
         monster = GetMonsterDataDeRolLe(monster)

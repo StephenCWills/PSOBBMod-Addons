@@ -141,6 +141,7 @@ m[108] =    { color = 0xFFFF8000, display = true } -- Kondrieu
 
 -- Other
 m[48] =     { color = 0xFFFFFFFF, display = true } -- Container
+m[999] =    { color = 0xFFFFFFFF, display = true } -- Darvant
 
 return
 {
