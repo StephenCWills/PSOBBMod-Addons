@@ -186,6 +186,9 @@ local function PresentPlayers()
         imgui.NextColumn()
         lib_helpers.imguiProgressBar(true, hp/mhp, -1.0, 13.0 * options.fontScale, hpColor, nil, hp)
         imgui.NextColumn()
+        
+        updateSDSound(atkTech, defTech)
+        
         if atkTech.type == 0 then
             lib_helpers.Text(true, "---")
         else
@@ -217,6 +220,29 @@ local function PresentPlayers()
         end
         imgui.NextColumn()
     end
+end
+
+local function updateSDSound(...)
+    local _minTime = 0
+
+    updateSDSound = function(atkTech, defTech)
+        local atkTime = (atkTech.type ~= 0) and atkTech.time or 20
+        local defTime = (defTech.type ~= 0) and defTech.time or 20
+        local minTime = math.min(atkTime, defTime)
+
+        local playSound =
+            (minTime <= 15) and (_minTime > 15) or
+            (minTime <= 5) and (minTime < _minTime)
+
+        if playSound and pso.play_sound then
+            pso.play_sound("addons\\Player Reader\\05_24.wav")
+            _lastPlayedSound = now
+        end
+
+        _minTime = minTime
+    end
+
+    updateSDSound(...)
 end
 
 local function PresentPlayer(address, sd, inv)
@@ -267,6 +293,8 @@ local function PresentPlayer(address, sd, inv)
     --end
 
     if sd == true then
+        updateSDSound(atkTech, defTech)
+
         if atkTech.type == 0 then
             --lib_helpers.Text(true, "")
         else
